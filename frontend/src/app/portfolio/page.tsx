@@ -64,15 +64,18 @@ export default function Home() {
       <div className='grid grid-flow-row grid-cols-1 gap-4'>
         <div className='text-gray-400 px-4'>
           <h2>Net Worth</h2>
-          <p>0.00</p>
+          <p>{formatNumberToUSD(2256)}</p>
         </div>
         <Card className='p-4 flex flex-col gap-4'>
           <CardTitle className='text-2xl text-gray-700 font-medium'>My Portfolio</CardTitle>
           <div className='grid w-96 grid-flow-row gap-3'>
-            <TokenLine icon={<SETF />} name='SETF' value={BigInt(12000000000000)} usdValue={1256} />
-            {data ? (
-              <TokenLine icon={<GHO />} name='GHO' value={data[0]} usdValue={100000} />
-            ) : null}
+            <TokenLine
+              icon={<SETF />}
+              name='DFGF'
+              value={BigInt(12000000000000000000n)}
+              usdValue={1256}
+            />
+            {data ? <TokenLine icon={<GHO />} name='GHO' value={data[0]} usdValue={1000} /> : null}
           </div>
         </Card>
       </div>

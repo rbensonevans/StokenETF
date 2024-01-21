@@ -4,9 +4,11 @@ import { WalletPopover } from './wallet-popover';
 export function Header() {
   return (
     <div className='flex items-center justify-between px-4 py-2 bg-white dark:bg-gray-900'>
-      <Link className='flex items-center' href='#'>
+      <Link className='flex items-center' href='/'>
         <MountainIcon className='h-6 w-6' />
-        <span className='ml-2 text-lg font-semibold text-gray-700 dark:text-gray-200'>Logo</span>
+        <span className='ml-2 text-lg font-semibold text-gray-700 dark:text-gray-200'>
+          Stoken ETF
+        </span>
       </Link>
       <nav className='hidden md:flex space-x-10 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100'>
         <Link href='/'>Home</Link>
@@ -22,18 +24,18 @@ export function Header() {
 function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
-      {...props}
       xmlns='http://www.w3.org/2000/svg'
-      width='24'
-      height='24'
-      viewBox='0 24'
       fill='none'
+      viewBox='0 0 24 24'
+      strokeWidth={1.5}
       stroke='currentColor'
-      strokeWidth='2'
-      strokeLinecap='round'
-      strokeLinejoin='round'
+      className='w-8 h-8'
     >
-      <path d='m8 3 4 8 5-5 5 15H2L8 3z' />
+      <path
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941'
+      />
     </svg>
   );
 }
