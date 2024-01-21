@@ -12,7 +12,7 @@ import { useAccount } from 'wagmi';
 import { SwapDialog } from './swap-dialog';
 import { Button } from './ui/button';
 
-const ButtonGroup = () => {
+const ButtonGroup = ({ token }: { token: string }) => {
   const { isConnected } = useAccount();
   if (!isConnected) {
     return (
@@ -23,8 +23,8 @@ const ButtonGroup = () => {
   }
   return (
     <TableCell className='flex flex-row gap-2 items-center justify-center'>
-      <SwapDialog position='Buy' token='DeFi ETF' />
-      <Button>Sell</Button>
+      <SwapDialog position='Buy' token={token} />
+      <SwapDialog position='Sell' token={token} />
       <Button>More Info</Button>
     </TableCell>
   );
@@ -39,84 +39,91 @@ export function EtfTable() {
           <TableHead>NAV</TableHead>
           <TableHead>YTD return</TableHead>
           <TableHead>1Y return</TableHead>
-          <TableHead>Fund class currency</TableHead>
+          <TableHead>Fund currency</TableHead>
           <TableHead>1 year sharpe ratio</TableHead>
-          <TableHead>Fund size (USD/Million)</TableHead>
-          <TableHead>risk level</TableHead>
+          <TableHead>Fund size (GHO/Million)</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         <TableRow>
           <TableCell>
-            Fidelity Funds - China Consumer Fund (Class A-HKD-Accumulation) U62456
+            Decentralized Finance Growth Fund (DFGF) - Targeting high-potential DeFi platforms and
+            protocols revolutionizing financial services.
           </TableCell>
           <TableCell>11.76</TableCell>
           <TableCell className='text-red-600'>-6.15%</TableCell>
           <TableCell className='text-red-600'>-29.54%</TableCell>
-          <TableCell>HKD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>-0.787</TableCell>
           <TableCell>3,441.50</TableCell>
-          <TableCell>5</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token={'DFGF'} />
         </TableRow>
 
         <TableRow>
           <TableCell>
-            Fidelity Funds - China Consumer Fund (Class A-USD-Accumulation) U62455
+            Private Transaction Innovators ETF (PTIE) - Specializing in privacy-centric
+            cryptocurrencies and technologies enhancing transaction anonymity.
           </TableCell>
           <TableCell>12.74</TableCell>
           <TableCell className='text-red-600'>-6.25%</TableCell>
           <TableCell className='text-red-600'>-29.61%</TableCell>
-          <TableCell>USD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>-0.784</TableCell>
           <TableCell>3,441.50</TableCell>
-          <TableCell>5</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token='PTIE' />
         </TableRow>
         <TableRow>
-          <TableCell>BlackRock Asian Tiger Bond Fund (Class A2) U61122</TableCell>
+          <TableCell>
+            Crypto Gaming and Entertainment ETF (CGEE) - Focusing on blockchain-based gaming
+            platforms and entertainment tokens.
+          </TableCell>
           <TableCell>38.51</TableCell>
           <TableCell className='text-green-600'>+0.34%</TableCell>
           <TableCell className='text-green-600'>+3.52%</TableCell>
-          <TableCell>USD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>0.085</TableCell>
           <TableCell>2,389.42</TableCell>
-          <TableCell>2</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token='CGEE' />
         </TableRow>
         <TableRow>
-          <TableCell>JPM JAPAN EQUITY (A-USDH-ACC) U63335</TableCell>
+          <TableCell>
+            Japanese Crypto Innovation Fund (JCIF) - Concentrating on leading Japanese
+            cryptocurrency projects and their token assoicated with them.
+          </TableCell>
           <TableCell>274.38</TableCell>
           <TableCell className='text-green-600'>+6.39%</TableCell>
           <TableCell className='text-green-600'>+36.66%</TableCell>
-          <TableCell>USD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>1.863</TableCell>
           <TableCell>2,136.33</TableCell>
-          <TableCell>3</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token='JCIF' />
         </TableRow>
         <TableRow>
-          <TableCell>HSBC GIF - Indian Equity (CLASS AD -HKD) U62464</TableCell>
+          <TableCell>
+            Digital Currency Diversification Fund (DCDF) - A diversified portfolio covering a wide
+            range of digital currencies, from major players to emerging altcoins.
+          </TableCell>
           <TableCell>16.09</TableCell>
           <TableCell className='text-green-600'>+3.18%</TableCell>
           <TableCell className='text-green-600'>+22.67%</TableCell>
-          <TableCell>HKD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>1.267</TableCell>
           <TableCell>1,333.77</TableCell>
-          <TableCell>5</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token='DCDF' />
         </TableRow>
         <TableRow>
-          <TableCell>HSBC Indian Equity Fund (Class AD) U40088</TableCell>
+          <TableCell>
+            Crypto Healthcare Revolution Fund (CHRF) - Blockchain projects that are set to transform
+            the healthcare industry, from patient data management to drug traceability.
+          </TableCell>
           <TableCell>284.356</TableCell>
           <TableCell className='text-green-600'>+3.00%</TableCell>
           <TableCell className='text-green-600'>+22.45%</TableCell>
-          <TableCell>USD</TableCell>
+          <TableCell>GHO</TableCell>
           <TableCell>1.268</TableCell>
           <TableCell>1,333.77</TableCell>
-          <TableCell>5</TableCell>
-          <ButtonGroup />
+          <ButtonGroup token='CHRF' />
         </TableRow>
       </TableBody>
     </Table>

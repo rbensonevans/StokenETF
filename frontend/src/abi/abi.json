@@ -1,0 +1,320 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_investGHOTokenAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "transferFromGHOAddress",
+        "type": "address"
+      }
+    ],
+    "name": "buyETFToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxAllocation",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_buyFee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_sellFee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "GHO_token",
+        "type": "address"
+      }
+    ],
+    "name": "createETF",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getETFWeightedPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "oracleGetETFPrice",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_sellETFAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "sendtoUserGHOAddress",
+        "type": "address"
+      }
+    ],
+    "name": "sellETFToken",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getBuyFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getETFCurrencyType",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getETFGHOAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getETFGHOTotalAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getOwner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getSellFee",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getTotalBuyFeeAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_fundName",
+        "type": "string"
+      }
+    ],
+    "name": "getTotalSellFeeAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_currencyType",
+        "type": "string"
+      }
+    ],
+    "name": "oracleGetGHOConversionRate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "sequenceNumber",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
