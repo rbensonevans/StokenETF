@@ -2,6 +2,8 @@
 
 pragma solidity >=0.8.2 <0.9.0;
 
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v4.0.0/contracts/token/ERC20/IERC20.sol";
+
 /**
  * @title StokenETFManager
  * @dev Invest in DeFiFund; Swap GHO tokens for DefiFund tokens.
@@ -9,6 +11,7 @@ pragma solidity >=0.8.2 <0.9.0;
 contract StokenETFManager {
 
     address private owner;
+    address public see_owner; // for debugging.
 
     uint public sequenceNumber;
 
@@ -30,9 +33,15 @@ contract StokenETFManager {
         GHO_TokenVault GHO_tokenManager; // tracks amount and token-address of GHO allocated to each fund.
         mapping(address => uint) investorsMap; // track fund investors and their ownership amounts.
     }
+
+    struct ETF_TokenContracts {
+        IERC20 stableCoin; // the user's coin.
+        IERC20 etfCoin; // the etf's coin.
+    }
   
     mapping(uint => ETF_Fund) private ETF_SET; // a set of ETF funds by id.
     mapping(string => uint) private ETF_ByName; // refer to ETF funds by name.
+    mapping(string => ETF_TokenContracts) private ETF_Tokens; // refer by name.
 
 
     // modifier to check if caller is owner
@@ -50,9 +59,10 @@ contract StokenETFManager {
      * @dev Set contract deployer as owner
      */
     constructor() {
-        // console.log("Owner contract deployed by: ", msg.sender);
+        //console.log("Owner contract deployed by: ", msg.sender);
         owner = msg.sender; // 'msg.sender' is sender of current call, contract deployer for a constructor
-        sequenceNumber = 10000; // start at a bigger than zero number; first fund starts at 10001.        
+        sequenceNumber = 10000; // start at a bigger than zero number; first fund starts at 10001. 
+        see_owner =  msg.sender; // REMOVE LATER. FOR DEBUGGING ONLY!!       
     }
 
     /**
@@ -62,6 +72,39 @@ contract StokenETFManager {
     function getOwner() external view returns (address) {
         return owner;
     }
+
+    /**
+     * @dev copied Tokenswap from https://solidity-by-example.org/app/erc20/.
+     */
+    function tokenSwap (IERC20 _token1, address _owner1, uint _amount1, IERC20 _token2, address _owner2, uint _amount2) private {
+        IERC20 token1;
+        IERC20 token2;
+  
+        token1 = IERC20(_token1);
+        token2 = IERC20(_token2);
+
+        require(msg.sender == _owner1 || msg.sender == _owner2, "Not authorized");
+        require(
+            token1.allowance(_owner1, address(this)) >= _amount1,
+            "Token 1 allowance too low"
+        );
+        require(
+            token2.allowance(_owner2, address(this)) >= _amount2,
+            "Token 2 allowance too low"
+        );
+
+        _safeTransferFrom(token1, _owner1, _owner2, _amount1);
+        _safeTransferFrom(token2, _owner2, _owner1, _amount2);
+    }
+
+    /**
+     * @dev copied Tokenswap from https://solidity-by-example.org/app/erc20/.
+     */
+    function _safeTransferFrom(IERC20 token, address sender, address recipient, uint amount) private {
+        bool sent = token.transferFrom(sender, recipient, amount);
+        require(sent, "Token transfer failed");
+    }
+
 
     /**
      * @dev Create an ETF and return its fund id.
@@ -84,6 +127,14 @@ contract StokenETFManager {
               
         return(sequenceNumber); // the fund's id.
     }
+
+     /**
+     * @dev set token addresses.
+     */
+     function setTokenContractAddress(string memory _fundName, IERC20 _stablecoin, IERC20 _etfcoin) public {
+        ETF_Tokens[_fundName].stableCoin = _stablecoin;
+        ETF_Tokens[_fundName].etfCoin = _etfcoin;
+     }  
 
     /**
      * @dev Return ETF's real-time price.
@@ -113,11 +164,6 @@ contract StokenETFManager {
      */
     function buyETFToken(string memory _fundName, uint _investGHOTokenAmount, address transferFromGHOAddress) public returns (uint) {
 
-        // REVISIT: ***********
-        // REVISIT: *********** transfer the user's GHO tokens to the company's vault.
-        // REVISIT: ***********
-
-        // on success of transfer.
         uint buyFee = ETF_SET[ETF_ByName[_fundName]].buyFee;
         string memory currencyType = ETF_SET[ETF_ByName[_fundName]].currencyType;      
         uint currentGHOtoCCYRate = oracleGetGHOConversionRate(currencyType);
@@ -131,10 +177,11 @@ contract StokenETFManager {
         ETF_SET[ETF_ByName[_fundName]].totalBuyFeeAmount += buyFee;
         ETF_SET[ETF_ByName[_fundName]].investorsMap[msg.sender] += _ETFTokenAmount;
 
-        // REVISIT: *********** if we have a separate token for each ETF 
-        // REVISIT: *********** the user's token amount (pre-minted/minted amount) can be updated
-        // REVISIT: *********** and the address returned to the user otherwise return ETF Token Unit Amounts.
-
+        IERC20 stableCoin = ETF_Tokens[_fundName].stableCoin; // user's coin address.
+        IERC20 etfCoin = ETF_Tokens[_fundName].etfCoin; // etf's coin.
+        stableCoin.approve(msg.sender, _investGHOTokenAmount);
+        etfCoin.approve(owner, _ETFTokenAmount);
+        tokenSwap (stableCoin, msg.sender, _investGHOTokenAmount, etfCoin, owner, _ETFTokenAmount);
         return _ETFTokenAmount;
     }
 
@@ -164,9 +211,11 @@ contract StokenETFManager {
 
         ETF_SET[ETF_ByName[_fundName]].GHO_tokenManager.ghoTotalAmount -= _ghoTokenAmount;
 
-        // REVISIT: ***********
-        // REVISIT: *********** transfer GHO tokens from the company's vault to user's address.
-        // REVISIT: ***********
+        IERC20 stableCoin = ETF_Tokens[_fundName].stableCoin; // user's coin address.
+        IERC20 etfCoin = ETF_Tokens[_fundName].etfCoin; // etf's coin.
+        stableCoin.approve(msg.sender, _ghoTokenAmount);
+        etfCoin.approve(owner, _sellETFAmount);
+        tokenSwap (etfCoin, msg.sender, _sellETFAmount, stableCoin, owner, _ghoTokenAmount);
 
         return _ghoTokenAmount; // amount of GHO tokens returned.
     }
